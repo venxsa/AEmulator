@@ -208,6 +208,7 @@ class GuestVm(val ctx: Context, val img: GuestImage) {
         overrides["ro.kernel.qemu"] = if (engine == Engine.GB) "0" else "1"
         overrides["ro.kernel.qemu.gles"] = if (s.gpu && (s.hwui || engine == Engine.GB)) "1" else "0"
         overrides["qemu.gles"] = if (s.gpu) "1" else "0"
+        if (img.api <= 10) overrides["debug.rs.default-CPU-driver"] = "1"
         // 7.0+ libEGL ignores egl.cfg and takes the first libGLES_*.so it finds; without the bridge: the software one
         if (img.api >= 24 && !s.gpu) {
             overrides["ro.hardware.egl"] = "android"
